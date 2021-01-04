@@ -21,7 +21,7 @@ use globset::Glob;
 use io::Write;
 use reqwest::{
     header::{HeaderMap, HeaderValue, USER_AGENT},
-    Response,
+    blocking::Response,
 };
 use std::{fs, fs::File, io, path::PathBuf};
 use tar::{Archive, Entry};
@@ -49,7 +49,7 @@ pub fn download_test_suites(branch: &str, download_dir: &PathBuf) -> Result<(), 
         USER_AGENT,
         HeaderValue::from_str(&format!("elasticsearch-rs/{}", env!("CARGO_PKG_NAME")))?,
     );
-    let client = reqwest::ClientBuilder::new()
+    let client = reqwest::blocking::ClientBuilder::new()
         .default_headers(headers)
         .build()
         .unwrap();
